@@ -17,7 +17,7 @@ export function buildWaMessage(name: string, url: string): string {
     "",
     "Salam hangat,",
     "",
-    "Dengan penuh rasa syukur, saya bermaksud mengundang Anda untuk hadir dalam acara wisuda saya 🎓",
+    "Dengan penuh rasa syukur, kami bermaksud mengundang Anda untuk hadir dalam acara wisuda kami 🎓",
     "",
     `*${g.name}, ${g.degree}*`,
     `_${g.program}, ${g.university}_`,
@@ -30,9 +30,9 @@ export function buildWaMessage(name: string, url: string): string {
     "Susunan acara dan petunjuk lokasi selengkapnya dapat dibuka melalui undangan digital berikut (disarankan dengan suara menyala 🎶):",
     url,
     "",
-    "Merupakan kebahagiaan bagi saya apabila Anda berkenan hadir dan berbagi momen ini. Atas doa dan dukungan Anda, saya ucapkan terima kasih 🙏",
+    "Merupakan kebahagiaan bagi kami apabila Anda berkenan hadir dan berbagi momen ini. Atas doa dan dukungan Anda, kami ucapkan terima kasih 🙏",
     "",
-    "Hormat saya,",
+    "Hormat kami,",
     `*${g.nickname}*`,
   ].join("\n");
 }
