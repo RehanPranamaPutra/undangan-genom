@@ -220,6 +220,24 @@ export const event = {
       ratio: "3/2",
     },
     {
+      src: "/photos/gallery/selebrasi-1.jpg",
+      alt: "GENOMIA 23 merayakan kelulusan sidang tugas akhir dengan selempang",
+      caption: "Akhirnya, sidang selesai!",
+      ratio: "4/3",
+    },
+    {
+      src: "/photos/gallery/selebrasi-2.jpg",
+      alt: "GENOMIA 23 merayakan kelulusan sidang tugas akhir sambil bergaya",
+      caption: "Pamit dari error & bugs",
+      ratio: "4/3",
+    },
+    {
+      src: "/photos/gallery/selebrasi-3.jpg",
+      alt: "GENOMIA 23 merayakan kelulusan sidang tugas akhir bersama",
+      caption: "Rayakan bersama, tim yang sama",
+      ratio: "4/3",
+    },
+    {
       src: "/photos/gallery/izin.jpg",
       alt: "GENOMIA 23 berdoa bersama menjelang hari wisuda",
       caption: "Kami mohon doa dan restu untuk melangkah lebih jauh",
@@ -234,8 +252,8 @@ export const event = {
 
   music: {
     /** taruh file di /public/music/ lalu tulis path-nya di sini */
-    src: "/music/roar.mp3",
-    title: "Roar",
+    src: "/music/so7.mp3",
+    title: "Sheila On 7",
   },
 
   /** teks pembuka di dalam undangan */

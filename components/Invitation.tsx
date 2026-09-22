@@ -9,22 +9,14 @@ import { event } from "@/lib/event";
 /** Kemiringan berseling tiap foto, supaya terasa ditempel tangan. */
 const TILTS = [-2, 1.5, -1.5, 2, -1, 1.5];
 
-/** Foto lanskap (rasio > 1) menempati dua kolom penuh — tak pernah dipotong jadi potret. */
-function isLandscape(ratio: string) {
-  const [w, h] = ratio.split("/").map((n) => parseFloat(n.trim()));
-  return w > h;
-}
+/** Tinggi tetap tiap foto di carousel — lebar menyesuaikan rasio asli (tak pernah dipotong). */
+const ROW_HEIGHT = "clamp(6.5rem, 19vw, 9.5rem)";
 
-/**
- * Grid 2 kolom + `grid-flow-row-dense` menutup celah kalau urutan lanskap/potret
- * pas-pasan — TAPI kalau total foto potret ganjil, satu sel akan selalu tersisa
- * kosong di ujung (matematis, bukan bug urutan). `needsFiller` mendeteksi itu
- * supaya kita render satu catatan kecil sebagai penutup, bukan ruang kosong.
- */
-const portraitCount = event.gallery.filter(
-  (item) => !isLandscape(item.ratio ?? "4 / 5"),
-).length;
-const needsFiller = portraitCount % 2 === 1;
+/** Bagi galeri jadi N baris berurutan (baris 1 = awal cerita, dst) untuk carousel geser. */
+function chunkRows<T>(items: T[], rows: number): T[][] {
+  const size = Math.ceil(items.length / rows);
+  return Array.from({ length: rows }, (_, r) => items.slice(r * size, r * size + size));
+}
 
 function SectionHead({ children }: { children: ReactNode }) {
   return (
@@ -197,48 +189,40 @@ export function Invitation({ greeting }: { greeting: string }) {
         </ol>
       </section>
 
-      {/* Galeri — setiap foto tetap dalam rasio aslinya: lanskap tetap lebar,
-          potret tetap tinggi. Ditempel dengan selotip pada kemiringan berseling. */}
+      {/* Galeri — carousel geser 3 baris. Tiap foto tetap rasio aslinya
+          (tinggi tetap, lebar menyesuaikan) supaya tak pernah dipotong paksa. */}
       <section className="mt-20 sm:mt-28">
         <div className="wrap-wide">
           <Reveal>
             <SectionHead>{t.galleryHeading}</SectionHead>
           </Reveal>
+        </div>
 
-          <div className="mt-10 grid grid-flow-row-dense grid-cols-2 gap-x-5 gap-y-14 sm:gap-x-8 sm:gap-y-20">
-            {event.gallery.map((item, i) => {
-              const ratio = item.ratio ?? "4 / 5";
-              const wide = isLandscape(ratio);
-              return (
-                <Reveal
-                  key={item.caption ?? i}
-                  variant="fade"
-                  delay={(i % 3) * 90}
-                  className={wide ? "col-span-2" : "col-span-1"}
-                >
-                  <Photo
-                    item={item}
-                    shape="polaroid"
-                    tilt={TILTS[i % TILTS.length]}
-                    sizes={
-                      wide
-                        ? "(max-width: 768px) 92vw, 58vw"
-                        : "(max-width: 768px) 42vw, 26vw"
-                    }
-                  />
-                </Reveal>
-              );
-            })}
-            {needsFiller && (
-              <Reveal variant="fade" className="col-span-1 flex items-center justify-center">
-                <div className="flex -rotate-2 flex-col items-center gap-3 border-2 border-ink bg-card px-6 py-10 text-center shadow-brutal">
-                  <Seal className="h-9 w-9" />
-                  <p className="font-hand text-xl text-moss-deep">
-                    &amp; banyak cerita lain yang tak sempat terekam kamera
-                  </p>
-                </div>
-              </Reveal>
-            )}
+        <div className="no-scrollbar mt-10 overflow-x-auto overscroll-x-contain">
+          <div className="flex w-max flex-col gap-4 px-5 pb-2 sm:gap-5 sm:px-8">
+            {chunkRows(event.gallery, 3).map((row, r) => (
+              <div key={r} className="flex items-start gap-4 sm:gap-5">
+                {row.map((item, idx) => {
+                  const i = r * row.length + idx;
+                  return (
+                    <Reveal
+                      key={item.src}
+                      variant="fade"
+                      delay={(idx % 4) * 70}
+                      className="shrink-0"
+                    >
+                      <Photo
+                        item={item}
+                        shape="polaroid"
+                        tilt={TILTS[i % TILTS.length]}
+                        imageHeight={ROW_HEIGHT}
+                        sizes="220px"
+                      />
+                    </Reveal>
+                  );
+                })}
+              </div>
+            ))}
           </div>
         </div>
       </section>
