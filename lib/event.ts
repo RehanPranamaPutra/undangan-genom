@@ -234,8 +234,8 @@ export const event = {
 
   music: {
     /** taruh file di /public/music/ lalu tulis path-nya di sini */
-    src: "/music/ingat-hari-ini.mp3",
-    title: "Ingat Hari Ini",
+    src: "/music/roar.mp3",
+    title: "Roar",
   },
 
   /** teks pembuka di dalam undangan */
