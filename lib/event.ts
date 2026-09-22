@@ -144,6 +144,24 @@ export const event = {
       ratio: "4/3",
     },
     {
+      src: "/photos/gallery/healing-1.jpg",
+      alt: "GENOMIA 23 singgah di jalan perkebunan teh dalam perjalanan healing",
+      caption: "Healing bareng, jauh dari kampus",
+      ratio: "4/3",
+    },
+    {
+      src: "/photos/gallery/healing-2.jpg",
+      alt: "GENOMIA 23 berpose di jalan perkebunan teh",
+      caption: "Udara sejuk, tawa yang sama",
+      ratio: "3/4",
+    },
+    {
+      src: "/photos/gallery/healing-3.jpg",
+      alt: "GENOMIA 23 berpose bersama di jalan perkebunan teh",
+      caption: "Sejenak lupa deadline",
+      ratio: "3/4",
+    },
+    {
       src: "/photos/gallery/sidang-1.jpg",
       alt: "GENOMIA 23 berfoto di tangga kampus dengan pakaian sidang",
       caption: "Hari sidang, tegang tapi kompak",
@@ -164,49 +182,41 @@ export const event = {
     {
       src: "/photos/gallery/studio-jurusan-1.jpg",
       alt: "GENOMIA 23 berfoto studio dengan seragam jurusan Teknik Informatika",
-      caption: "Sesi foto dengan seragam jurusan",
       ratio: "3/2",
     },
     {
       src: "/photos/gallery/studio-jurusan-2.jpg",
       alt: "GENOMIA 23 berfoto studio dengan seragam jurusan",
-      caption: "Kompak berseragam jurusan",
       ratio: "3/2",
     },
     {
       src: "/photos/gallery/studio-jurusan-3.jpg",
       alt: "GENOMIA 23 berfoto studio dengan seragam jurusan",
-      caption: "Satu jurusan, satu identitas",
       ratio: "3/2",
     },
     {
       src: "/photos/gallery/studio-kelas-1.jpg",
       alt: "GENOMIA 23 berfoto studio dengan seragam kelas 23",
-      caption: "Berganti seragam kelas",
       ratio: "3/2",
     },
     {
       src: "/photos/gallery/studio-kelas-2.jpg",
       alt: "GENOMIA 23 berfoto studio dengan seragam kelas 23",
-      caption: "Masih dengan semangat yang sama",
       ratio: "3/2",
     },
     {
       src: "/photos/gallery/studio-kelas-3.jpg",
       alt: "GENOMIA 23 berfoto studio dengan seragam kelas 23",
-      caption: "Kenangan yang dijaga bersama",
       ratio: "3/2",
     },
     {
       src: "/photos/gallery/studio-putih-1.jpg",
       alt: "GENOMIA 23 berfoto studio dengan balutan putih",
-      caption: "Kompak dalam balutan putih",
       ratio: "3/2",
     },
     {
       src: "/photos/gallery/studio-putih-2.jpg",
       alt: "GENOMIA 23 berfoto studio dengan balutan putih",
-      caption: "Menyambut hari yang dinanti",
       ratio: "3/2",
     },
     {

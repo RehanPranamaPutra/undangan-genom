@@ -1,17 +1,16 @@
 import { event } from "@/lib/event";
 
-function initials(name: string) {
-  return name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 3)
-    .map((w) => w[0]?.toUpperCase() ?? "")
-    .join("");
+/** Angka angkatan (mis. "23" dari "GENOMIA 23") kalau ada, kalau tidak inisial kata. */
+function monogram(name: string) {
+  const words = name.split(/\s+/).filter(Boolean);
+  const last = words[words.length - 1] ?? "";
+  if (/^\d+$/.test(last)) return last;
+  return words.slice(0, 3).map((w) => w[0]?.toUpperCase() ?? "").join("");
 }
 
-/** Monogram / segel emas — dipakai berulang sebagai penanda identitas. */
+/** Segel / cap tinta — dipakai berulang sebagai penanda identitas. */
 export function Seal({ className = "" }: { className?: string }) {
-  const mono = initials(event.graduate.name);
+  const mono = monogram(event.graduate.name);
 
   return (
     <svg
@@ -43,7 +42,7 @@ export function Seal({ className = "" }: { className?: string }) {
         x="50"
         y="59"
         textAnchor="middle"
-        fill="var(--color-marker)"
+        fill="var(--color-moss)"
         fontFamily="var(--font-display), Georgia, serif"
         fontSize={mono.length >= 3 ? 21 : 27}
       >

@@ -48,7 +48,9 @@ Router, Turbopack) + Tailwind v4. Bahasa UI: Indonesia, gaya semi-formal yang ha
 
 - Data: `event.gallery[]` (`src`, `alt`, `caption`, opsional `position`, `zoom`, `ratio`). Urutan = urutan cerita.
 - **`ratio` wajib diisi rasio ASLI foto** (mis. potret HP `9/16`, studio `3/2`), bukan dipaksa ke satu bentuk. Cek dimensi asli dulu (`ffprobe`/EXIF) sebelum menambah foto baru.
-- Layout: grid 2 kolom (`.wrap-wide`, 64rem) di `components/Invitation.tsx`. Foto **lanskap** (rasio lebar > tinggi, dicek dari `item.ratio`) otomatis `col-span-2` (melebar penuh, tanpa crop paksa); foto **potret** tetap 1 kolom. Semua pakai bentuk `polaroid` (`Photo.tsx`), ditempel selotip dengan kemiringan & warna berselang (`TILTS`/`TAPES`).
+- Layout: grid 2 kolom `grid-flow-row-dense` (`.wrap-wide`, 64rem) di `components/Invitation.tsx`. Foto **lanskap** (rasio lebar > tinggi, dicek dari `item.ratio`) otomatis `col-span-2` (melebar penuh, tanpa crop paksa); foto **potret** tetap 1 kolom. Semua pakai bentuk `polaroid` (`Photo.tsx`), ditempel selotip dengan kemiringan berselang (`TILTS`).
+- **Kalau total foto potret ganjil, satu sel SELALU tersisa kosong** di ujung — ini fakta matematis grid 2 kolom, bukan bug urutan, dan `dense` tidak bisa memperbaikinya (tidak ada foto lain yang muat di sana). `needsFiller` di `Invitation.tsx` mendeteksi paritas itu dan merender satu catatan kecil ("& banyak cerita lain...") sebagai penutup alih-alih ruang kosong. Kalau nanti jumlah foto potret berubah jadi genap, filler ini otomatis tidak muncul.
+- Caption pakai `line-clamp-2` (bukan `truncate` satu baris) supaya kalimat panjang tidak terpotong tanggung — tulis caption pendek (idealnya <28 karakter) biar muat rapi di kartu polaroid mobile. Caption **opsional**; foto studio sengaja tanpa caption (captionnya dulu terasa kaku/generik).
 - **Pipeline foto**: jangan taruh foto mentah di `public/`. HEIC tidak tampil di browser. Konversi (Windows: WIC/PowerShell; sharp ada di `node_modules/.pnpm`), lalu kecilkan sisi terpanjang ke ~1800px (2400 untuk landscape), JPEG q≈82, simpan ke `public/photos/gallery/`. Foto asli disimpan di `photos-original/` (di luar `public`, tidak ikut deploy).
 
 - **Jangan pakai `clip-path` untuk menyembunyikan foto lazy.** Browser tidak memuat `<img loading="lazy">` yang sedang tertutup clip-path oleh ancestor, jadi foto baru diunduh setelah animasi selesai dan muncul tiba-tiba (atau tak pernah bila animasi menunggu `data-loaded`). Animasi buka foto memakai tirai `transform: scaleX` yang baru menyingkap saat bingkai masuk layar **dan** foto sudah dimuat.
@@ -56,21 +58,26 @@ Router, Turbopack) + Tailwind v4. Bahasa UI: Indonesia, gaya semi-formal yang ha
 
 ## Sistem visual (`app/globals.css`)
 
-- Tema **scrapbook/yearbook hangat**: kertas kraft, selotip washi, foto
-  ditempel miring, aksen tulisan tangan — bukan editorial-akademik/emas (versi
-  lama, sudah diganti karena undangan ini untuk satu kelas, bukan perorangan).
-- Token warna: `ink`, `paper`, `card` (kertas foto/kartu, lebih terang dari
-  `paper`), `panel`, `edge`, `moss`/`moss-deep`/`moss-bright` (aksen utama),
-  `denim` (selotip kedua), `marker` (aksen tegas, dipakai sangat jarang —
-  garis bawah nama di sampul & tinta monogram `Seal`), `muted`.
+- Tema **"Editorial Graduation Scrapbook"**: warm white + sage + terracotta +
+  charcoal. Bukan editorial-akademik/emas (versi lama), bukan pula versi
+  warna-warni (draf kedua, terlalu ramai) — palet sengaja dibatasi ke DUA
+  aksen saja, dipakai sesuai peran masing-masing (lihat di bawah), sisanya
+  netral kertas/tinta. Jangan tambah warna aksen baru tanpa diminta.
+- Token warna: `ink` (charcoal, teks), `paper` (warm white, latar), `card`
+  (putih, mat foto/kartu), `panel` (ivory, kartu "Simpan tanggalnya"), `edge`,
+  `tape` (selotip netral kraft pudar — dipakai di galeri, ph.2, minim warna),
+  `moss`/`moss-deep`/`moss-bright` (aksen UTAMA — tombol, bullet, rail, rel,
+  monogram `Seal`), `terracotta` (aksen SEKUNDER, sengaja jarang — hanya
+  `.tape-underline` di bawah nama & satu selotip foto sampul; lihat
+  `.tape--sage`/`.tape--terracotta` di `Cover.tsx`, TIDAK dipakai di galeri).
 - Font: Fraunces (display, italic hangat) + Libre Caslon Text (serif isi) +
   Archivo (sans/UI) + Caveat (`--font-hand`, tulisan tangan — dipakai untuk
   caption foto, label kecil, tanda tangan; JANGAN dipakai untuk paragraf
   panjang) (`app/layout.tsx`, `next/font`).
-- `.tape`/`.tape--moss`/`.tape--denim`/`.tape--marker`: selotip washi dekoratif
-  (dipakai di `Cover.tsx` dan bentuk `polaroid` pada `Photo.tsx`).
-- `.tape-rule`/`.tape-underline`: pengganti bekas `.gilt-*` — flat, tanpa
-  animasi kilau (kilau emas sudah dibuang, ganti dengan warna solid).
+- `.tape`: selotip kertas netral dekoratif (dipakai di `Cover.tsx` dan bentuk
+  `polaroid` pada `Photo.tsx`) — satu gaya saja, tanpa varian warna.
+- `.tape-rule`/`.tape-underline`: pengganti bekas `.gilt-*` — tipis, flat,
+  warna `moss`, tanpa animasi kilau.
 - Butiran kertas: `body::before` (SVG noise, opacity ~3.5%).
 - **Semua animasi wajib punya fallback**: blok `@media (prefers-reduced-motion:
   reduce)` dan `@media (scripting: none)` memaksa konten tampil. `[data-still]`
@@ -95,6 +102,6 @@ Router, Turbopack) + Tailwind v4. Bahasa UI: Indonesia, gaya semi-formal yang ha
   Negeri Padang)**, bukan wisudawan perorangan — `event.graduate` merepresentasikan
   kelas (lihat komentar di `lib/event.ts`), teks pakai sudut pandang "kami".
 - Tema: scrapbook/yearbook hangat (lihat "Sistem visual"). Animasi & fallback aksesibilitas: selesai. Copy: semi-formal.
-- Galeri: 22 foto terpasang (`public/photos/gallery/`, ~7MB total setelah
+- Galeri: 25 foto terpasang (`public/photos/gallery/`, ~8MB total setelah
   dikompres — foto mentah asli ada di `photos-original/`, tidak ikut deploy).
 - Data wisuda, foto cover, foto galeri, dan musik (`/public/music/good-life.mp3`) sudah terisi.

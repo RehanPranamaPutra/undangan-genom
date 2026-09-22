@@ -63,11 +63,9 @@ function Media({
 /** Kelas bingkai per bentuk. */
 const frame: Record<Exclude<PhotoShape, "polaroid">, string> = {
   rect: "border-2 border-ink shadow-[7px_7px_0_0_var(--color-moss)]",
-  arch: "rounded-t-[999px] border-2 border-ink shadow-[7px_7px_0_0_var(--color-denim)]",
-  circle: "rounded-full border-2 border-ink shadow-[6px_6px_0_0_var(--color-marker)]",
+  arch: "rounded-t-[999px] border-2 border-ink shadow-[7px_7px_0_0_var(--color-moss)]",
+  circle: "rounded-full border-2 border-ink shadow-[6px_6px_0_0_var(--color-moss)]",
 };
-
-export type TapeVariant = "moss" | "denim" | "marker";
 
 export function Photo({
   item,
@@ -77,7 +75,6 @@ export function Photo({
   sizes = "(max-width: 768px) 88vw, 42vw",
   priority = false,
   tilt = 0,
-  tape = "moss",
 }: {
   item: GalleryItem;
   shape?: PhotoShape;
@@ -88,8 +85,6 @@ export function Photo({
   priority?: boolean;
   /** kemiringan bingkai dalam derajat */
   tilt?: number;
-  /** warna selotip untuk bentuk polaroid */
-  tape?: TapeVariant;
 }) {
   const aspect = item.ratio ?? ratio ?? "4 / 5";
 
@@ -97,15 +92,15 @@ export function Photo({
     return (
       <figure className={`group ${className}`}>
         <div
-          className="relative border-2 border-ink bg-card p-2 pb-10 shadow-brutal"
+          className="relative border-2 border-ink bg-card p-2 shadow-brutal"
           style={{ rotate: `${tilt}deg` }}
         >
-          <span aria-hidden className={`tape tape--${tape} -top-3 left-1/2 -translate-x-1/2 -rotate-2`} />
+          <span aria-hidden className="tape -top-3 left-1/2 -translate-x-1/2 -rotate-2" />
           <div className="relative w-full overflow-hidden" style={{ aspectRatio: aspect }}>
             <Media item={item} sizes={sizes} priority={priority} />
           </div>
           {item.caption && (
-            <figcaption className="absolute inset-x-2 bottom-2 truncate text-center font-hand text-lg text-ink/80">
+            <figcaption className="line-clamp-2 px-1 pb-1 pt-3 text-center font-hand text-lg leading-tight text-ink/80">
               {item.caption}
             </figcaption>
           )}

@@ -9,8 +9,8 @@ function TapedPhoto() {
 
   return (
     <div className="relative w-full max-w-[420px] -rotate-2 sm:max-w-[480px]">
-      <span aria-hidden className="tape tape--marker -top-4 left-10 -rotate-6" />
-      <span aria-hidden className="tape tape--denim -bottom-4 right-8 rotate-6" />
+      <span aria-hidden className="tape tape--sage -top-4 left-10 -rotate-6" />
+      <span aria-hidden className="tape tape--terracotta -bottom-4 right-8 rotate-6" />
 
       <div className="relative border-2 border-ink bg-card p-2 pb-3 shadow-brutal-lg">
         <div
@@ -98,13 +98,13 @@ export function Cover({
             </div>
 
             {/* Kartu nama tamu — seperti kartu indeks yang ditempel */}
-            <div className="relative mt-9 w-fit max-w-full rotate-1 border-2 border-ink bg-card p-1 shadow-brutal">
-              <span aria-hidden className="tape tape--moss -top-3 left-1/2 -translate-x-1/2 rotate-1" />
-              <div className="px-5 py-5 text-center sm:px-8 sm:py-6">
+            <div className="relative mt-9 w-full max-w-sm rotate-1 border-2 border-ink bg-card p-1 shadow-brutal">
+              <span aria-hidden className="tape -top-3 left-1/2 -translate-x-1/2 rotate-1" />
+              <div className="px-5 py-6 text-center sm:px-8 sm:py-7">
                 <p className="font-hand text-xl text-moss-deep sm:text-2xl">
                   {c.greetingLabel}
                 </p>
-                <p className="mx-auto mt-1 max-w-[18ch] text-balance font-display text-[clamp(1.7rem,6.5vw,2.5rem)] italic leading-[1.1] text-ink">
+                <p className="mt-1 text-balance font-display text-[clamp(1.7rem,6.5vw,2.5rem)] italic leading-[1.15] text-ink">
                   {greeting}
                 </p>
               </div>

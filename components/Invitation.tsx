@@ -1,20 +1,30 @@
 import type { ReactNode } from "react";
 import { BrutalLink } from "@/components/BrutalButton";
 import { PaperDust } from "@/components/PaperDust";
-import { Photo, type TapeVariant } from "@/components/Photo";
+import { Photo } from "@/components/Photo";
 import { Reveal } from "@/components/Reveal";
 import { Seal } from "@/components/Seal";
 import { event } from "@/lib/event";
 
-/** Kemiringan & warna selotip berseling tiap foto, supaya terasa ditempel tangan. */
+/** Kemiringan berseling tiap foto, supaya terasa ditempel tangan. */
 const TILTS = [-2, 1.5, -1.5, 2, -1, 1.5];
-const TAPES: TapeVariant[] = ["moss", "denim"];
 
 /** Foto lanskap (rasio > 1) menempati dua kolom penuh — tak pernah dipotong jadi potret. */
 function isLandscape(ratio: string) {
   const [w, h] = ratio.split("/").map((n) => parseFloat(n.trim()));
   return w > h;
 }
+
+/**
+ * Grid 2 kolom + `grid-flow-row-dense` menutup celah kalau urutan lanskap/potret
+ * pas-pasan — TAPI kalau total foto potret ganjil, satu sel akan selalu tersisa
+ * kosong di ujung (matematis, bukan bug urutan). `needsFiller` mendeteksi itu
+ * supaya kita render satu catatan kecil sebagai penutup, bukan ruang kosong.
+ */
+const portraitCount = event.gallery.filter(
+  (item) => !isLandscape(item.ratio ?? "4 / 5"),
+).length;
+const needsFiller = portraitCount % 2 === 1;
 
 function SectionHead({ children }: { children: ReactNode }) {
   return (
@@ -195,7 +205,7 @@ export function Invitation({ greeting }: { greeting: string }) {
             <SectionHead>{t.galleryHeading}</SectionHead>
           </Reveal>
 
-          <div className="mt-10 grid grid-cols-2 gap-x-5 gap-y-14 sm:gap-x-8 sm:gap-y-20">
+          <div className="mt-10 grid grid-flow-row-dense grid-cols-2 gap-x-5 gap-y-14 sm:gap-x-8 sm:gap-y-20">
             {event.gallery.map((item, i) => {
               const ratio = item.ratio ?? "4 / 5";
               const wide = isLandscape(ratio);
@@ -210,7 +220,6 @@ export function Invitation({ greeting }: { greeting: string }) {
                     item={item}
                     shape="polaroid"
                     tilt={TILTS[i % TILTS.length]}
-                    tape={TAPES[i % TAPES.length]}
                     sizes={
                       wide
                         ? "(max-width: 768px) 92vw, 58vw"
@@ -220,6 +229,16 @@ export function Invitation({ greeting }: { greeting: string }) {
                 </Reveal>
               );
             })}
+            {needsFiller && (
+              <Reveal variant="fade" className="col-span-1 flex items-center justify-center">
+                <div className="flex -rotate-2 flex-col items-center gap-3 border-2 border-ink bg-card px-6 py-10 text-center shadow-brutal">
+                  <Seal className="h-9 w-9" />
+                  <p className="font-hand text-xl text-moss-deep">
+                    &amp; banyak cerita lain yang tak sempat terekam kamera
+                  </p>
+                </div>
+              </Reveal>
+            )}
           </div>
         </div>
       </section>
