@@ -66,9 +66,9 @@ export const event = {
    * (lanskap) — pilih foto lanskap supaya tidak terpotong.
    */
   cover: {
-    src: "/photos/gallery/izin.jpg",
-    alt: "GENOMIA 23 berdoa bersama menjelang hari wisuda",
-    position: "50% 32%",
+    src: "/photos/gallery/cover.jpg",
+    alt: "GENOMIA 23 berfoto studio bersama dengan seragam jurusan",
+    position: "50% 45%",
     zoom: 1,
   } as {
     src: string;

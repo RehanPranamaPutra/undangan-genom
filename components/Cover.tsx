@@ -77,7 +77,7 @@ export function Cover({
 
           {/* Teks */}
           <div className="order-2 md:order-1">
-            <h1 className="cover-name relative inline-block text-[clamp(2.6rem,11vw,5.2rem)] italic leading-[0.98] tracking-[-0.01em] text-ink">
+            <h1 className="cover-name relative mx-auto block w-fit text-center text-[clamp(2.6rem,11vw,5.2rem)] italic leading-[0.98] tracking-[-0.01em] text-ink">
               {g.name}
               <span className="tape-underline" aria-hidden />
             </h1>
