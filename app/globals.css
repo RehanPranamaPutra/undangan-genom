@@ -1,0 +1,495 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #2b2620;
+  --color-paper: #efe6d0;
+  --color-card: #fbf6e8;
+  --color-panel: #e6d9b8;
+  --color-edge: #d9cba6;
+  --color-moss: #5c6b45;
+  --color-moss-deep: #414a30;
+  --color-moss-bright: #93a56b;
+  --color-denim: #41597a;
+  --color-marker: #a6412c;
+  --color-muted: #746b5a;
+
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-caslon-text), Georgia, serif;
+  --font-sans: var(--font-archivo), system-ui, -apple-system, sans-serif;
+  --font-hand: var(--font-caveat), cursive;
+
+  --shadow-brutal: 6px 6px 0 0 #2b2620;
+  --shadow-brutal-sm: 3px 3px 0 0 #2b2620;
+  --shadow-brutal-lg: 12px 12px 0 0 #2b2620;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    line-height: 1.65;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Serat kertas kraft — sangat halus, di atas semua lapisan */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.04;
+  }
+
+  ::selection {
+    background: var(--color-moss);
+    color: var(--color-card);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+}
+
+/* ============================================================
+   Layout helper
+   ============================================================ */
+.wrap {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 48rem;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 640px) {
+  .wrap {
+    padding-inline: 1.5rem;
+  }
+}
+@media (min-width: 768px) {
+  .wrap {
+    padding-inline: 2rem;
+  }
+}
+
+/* Versi lebar untuk kolase galeri (keluar dari kolom teks) */
+.wrap-wide {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 64rem;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 640px) {
+  .wrap-wide {
+    padding-inline: 1.5rem;
+  }
+}
+@media (min-width: 768px) {
+  .wrap-wide {
+    padding-inline: 2rem;
+  }
+}
+
+/* ============================================================
+   Coretan spidol: garis & sapuan tangan
+   ============================================================ */
+.tape-rule {
+  background: var(--color-moss);
+  opacity: 0.75;
+}
+.tape-text {
+  color: var(--color-moss-deep);
+}
+
+/* ============================================================
+   Selotip washi — dipakai untuk menempel foto & kartu kertas
+   ============================================================ */
+.tape {
+  position: absolute;
+  z-index: 10;
+  height: 1.9rem;
+  width: 4.5rem;
+  opacity: 0.82;
+  box-shadow: 1px 2px 3px rgba(43, 38, 32, 0.18);
+  background-image: repeating-linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.16) 0 6px,
+    transparent 6px 12px
+  );
+}
+.tape--moss {
+  background-color: var(--color-moss);
+}
+.tape--denim {
+  background-color: var(--color-denim);
+}
+.tape--marker {
+  background-color: var(--color-marker);
+}
+
+/* ============================================================
+   Cover
+   ============================================================ */
+.cover {
+  transition:
+    transform 0.95s cubic-bezier(0.76, 0, 0.24, 1),
+    opacity 0.8s ease;
+}
+.cover[data-closing="true"] {
+  transform: translateY(-105%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cover-frame {
+  position: absolute;
+  inset: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--color-moss) 55%, transparent);
+  pointer-events: none;
+  z-index: 30;
+  animation: frameIn 1.25s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@media (min-width: 640px) {
+  .cover-frame {
+    inset: 1.25rem;
+  }
+}
+@keyframes frameIn {
+  from {
+    clip-path: inset(48% 48% 48% 48%);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+.vertical-label {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.12em;
+}
+
+/* Nama sampul — garis spidol menggores masuk (dekoratif, aman bila animasi mati) */
+.cover-name .tape-underline {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: none;
+  animation: underlineGrow 0.8s cubic-bezier(0.65, 0, 0.35, 1) 0.5s forwards;
+}
+@keyframes underlineGrow {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ============================================================
+   Tombol — kilau lembut menyapu (satu kali saat hover/muncul)
+   ============================================================ */
+.btn-sheen {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 34%,
+    rgba(255, 255, 255, 0.32) 48%,
+    transparent 64%
+  );
+  transform: translateX(-130%);
+}
+.btn-sheen:hover::after {
+  animation: sweep 1.05s ease;
+}
+.btn-pulse::after {
+  animation: sweep 2.6s ease-in-out 1.1s infinite;
+}
+@keyframes sweep {
+  to {
+    transform: translateX(130%);
+  }
+}
+
+/* ============================================================
+   Reveal saat masuk viewport
+   ============================================================ */
+[data-reveal] {
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    clip-path 1s cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-reveal="rise"] {
+  opacity: 0;
+  transform: translateY(26px);
+}
+[data-reveal="fade"] {
+  opacity: 0;
+}
+[data-reveal="wipe"] {
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+}
+[data-reveal][data-inview="true"] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0 0);
+}
+
+/* Garis spidol di bawah nama — melebar saat blok tampil */
+.tape-underline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.14em;
+  height: 0.32em;
+  background: var(--color-marker);
+  opacity: 0.85;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.1s cubic-bezier(0.65, 0, 0.35, 1) 0.25s;
+}
+[data-inview="true"] .tape-underline {
+  transform: scaleX(1);
+}
+
+/* Ornamen sudut pada kartu acara */
+.corner {
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.6s ease 0.35s,
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s;
+}
+[data-inview="true"] .corner {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Foto — tirai menyingkap ke kanan setelah bingkai tampil DAN foto selesai dimuat.
+   Sengaja BUKAN clip-path: browser tidak memuat gambar lazy yang sedang tertutup
+   clip-path, sehingga foto baru diunduh setelah animasi selesai dan muncul tiba-tiba. */
+.photo-curtain {
+  background: var(--color-panel);
+  transform-origin: right;
+  transition: transform 1.05s cubic-bezier(0.65, 0, 0.35, 1) 0.1s;
+}
+[data-inview="true"] [data-photo][data-loaded="true"] .photo-curtain {
+  transform: scaleX(0);
+}
+
+/* ============================================================
+   Band kutipan — halaman gelap disematkan di tengah buku
+   ============================================================ */
+.quote-band {
+  position: relative;
+  overflow: hidden;
+  color: var(--color-card);
+  background: radial-gradient(120% 130% at 18% 0%, #38412a 0%, var(--color-ink) 62%);
+  border-block: 1px solid color-mix(in srgb, var(--color-moss) 45%, transparent);
+}
+.quote-mark {
+  position: absolute;
+  top: -0.08em;
+  left: -0.03em;
+  z-index: 0;
+  font-family: var(--font-display);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--color-moss-bright) 85%, transparent);
+  opacity: 0.6;
+  animation: driftY 12s ease-in-out infinite alternate;
+}
+
+/* ============================================================
+   Angka tahun (penutup) — dicap besar, tanpa kilau
+   ============================================================ */
+.year-kinetic {
+  font-family: var(--font-display);
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  color: var(--color-paper);
+  -webkit-text-stroke: 2px var(--color-ink);
+  paint-order: stroke fill;
+}
+
+/* ============================================================
+   Segel / cap tinta
+   ============================================================ */
+.seal-ring {
+  transform-origin: 50% 50%;
+  animation: spin 42s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Rel vertikal rundown — dijahit putus-putus */
+.rail {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-moss) 0 6px,
+    transparent 6px 12px
+  );
+}
+
+/* ============================================================
+   Equaliser musik
+   ============================================================ */
+.eqbar {
+  transform-origin: bottom;
+  animation: eq 0.9s ease-in-out infinite alternate;
+}
+.eqbar:nth-child(2) {
+  animation-duration: 0.68s;
+}
+.eqbar:nth-child(3) {
+  animation-duration: 1.18s;
+}
+.eqbar:nth-child(4) {
+  animation-duration: 0.82s;
+}
+@keyframes eq {
+  from {
+    transform: scaleY(0.28);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes driftY {
+  from {
+    transform: translateY(-2%);
+  }
+  to {
+    transform: translateY(4%);
+  }
+}
+
+/* Huruf kapital hias di paragraf pembuka & penutup */
+.dropcap::first-letter {
+  font-family: var(--font-display);
+  font-size: 3.4em;
+  line-height: 0.82;
+  float: left;
+  margin: 0.06em 0.09em 0 0;
+  color: var(--color-moss-deep);
+}
+
+/* ============================================================
+   Lewati animasi masuk untuk tangkapan layar statis: ?still
+   ============================================================ */
+[data-still] [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+  transition: none !important;
+}
+[data-still] .tape-underline,
+[data-still] .corner {
+  transform: none !important;
+  opacity: 1 !important;
+  transition: none !important;
+  animation: none !important;
+}
+[data-still] .photo-curtain {
+  transform: scaleX(0) !important;
+  transition: none !important;
+}
+
+/* ============================================================
+   Tanpa JS — tampilkan semua, buang cover
+   ============================================================ */
+@media (scripting: none) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+  .cover-name .tape-underline,
+  .corner {
+    transform: none;
+    opacity: 1;
+    clip-path: none;
+  }
+  .photo-curtain {
+    display: none;
+  }
+  .cover {
+    display: none !important;
+  }
+}
+
+/* ============================================================
+   Kurangi gerak
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .cover {
+    transition: opacity 0.2s linear;
+  }
+  .cover-frame {
+    animation: none;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none;
+  }
+  .tape-underline,
+  .cover-name .tape-underline {
+    animation: none;
+    transform: none;
+    opacity: 1;
+    clip-path: none;
+  }
+  .corner {
+    transform: none;
+    opacity: 1;
+    clip-path: none;
+  }
+  .photo-curtain {
+    display: none;
+  }
+  .btn-sheen::after,
+  .btn-pulse::after {
+    display: none;
+  }
+  .seal-ring,
+  .quote-mark {
+    animation: none;
+  }
+  .eqbar {
+    animation: none;
+    transform: scaleY(0.6);
+  }
+}
