@@ -75,7 +75,6 @@ export function Photo({
   sizes = "(max-width: 768px) 88vw, 42vw",
   priority = false,
   tilt = 0,
-  imageHeight,
 }: {
   item: GalleryItem;
   shape?: PhotoShape;
@@ -86,35 +85,22 @@ export function Photo({
   priority?: boolean;
   /** kemiringan bingkai dalam derajat */
   tilt?: number;
-  /**
-   * Kalau diisi, bingkai tingginya TETAP (nilai CSS, mis. "8rem") dan lebar
-   * mengikuti rasio asli (bukan `w-full`) — dipakai di carousel galeri supaya
-   * foto potret & lanskap bisa sebaris tanpa dipotong.
-   */
-  imageHeight?: string;
 }) {
   const aspect = item.ratio ?? ratio ?? "4 / 5";
 
   if (shape === "polaroid") {
     return (
-      <figure className={`group ${imageHeight ? "w-fit" : ""} ${className}`}>
+      <figure className={`group ${className}`}>
         <div
           className="relative border-2 border-ink bg-card p-2 shadow-brutal"
           style={{ rotate: `${tilt}deg` }}
         >
           <span aria-hidden className="tape -top-3 left-1/2 -translate-x-1/2 -rotate-2" />
-          <div
-            className={`relative overflow-hidden ${imageHeight ? "" : "w-full"}`}
-            style={imageHeight ? { height: imageHeight, aspectRatio: aspect } : { aspectRatio: aspect }}
-          >
+          <div className="relative w-full overflow-hidden" style={{ aspectRatio: aspect }}>
             <Media item={item} sizes={sizes} priority={priority} />
           </div>
           {item.caption && (
-            <figcaption
-              className={`line-clamp-2 px-1 pb-1 pt-3 text-center font-hand text-lg leading-tight text-ink/80 ${
-                imageHeight ? "w-0 min-w-full" : ""
-              }`}
-            >
+            <figcaption className="line-clamp-2 px-1 pb-1 pt-3 text-center font-hand text-lg leading-tight text-ink/80">
               {item.caption}
             </figcaption>
           )}

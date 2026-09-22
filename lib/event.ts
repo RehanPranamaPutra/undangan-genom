@@ -144,6 +144,24 @@ export const event = {
       ratio: "4/3",
     },
     {
+      src: "/photos/gallery/makrab-1.jpg",
+      alt: "GENOMIA 23 berkumpul saat malam keakraban angkatan 2023",
+      caption: "Makrab, awal saling mengenal",
+      ratio: "9/16",
+    },
+    {
+      src: "/photos/gallery/makrab-2.jpg",
+      alt: "GENOMIA 23 berkumpul saat malam keakraban angkatan 2024",
+      caption: "Makrab lagi, makin akrab",
+      ratio: "3/2",
+    },
+    {
+      src: "/photos/gallery/wisuda-kating.jpg",
+      alt: "GENOMIA 23 menghadiri wisuda kakak tingkat bersama satu jurusan",
+      caption: "Hadir di wisuda kating, belajar dari mereka",
+      ratio: "3/2",
+    },
+    {
       src: "/photos/gallery/healing-1.jpg",
       alt: "GENOMIA 23 singgah di jalan perkebunan teh dalam perjalanan healing",
       caption: "Healing bareng, jauh dari kampus",

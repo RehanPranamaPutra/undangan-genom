@@ -107,15 +107,6 @@
   }
 }
 
-/* Carousel galeri — scrollbar disembunyikan, geser tetap jalan (touch/trackpad/keyboard). */
-.no-scrollbar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
 /* ============================================================
    Coretan spidol: garis & sapuan tangan
    ============================================================ */

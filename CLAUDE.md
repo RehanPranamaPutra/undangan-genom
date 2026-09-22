@@ -102,6 +102,6 @@ Router, Turbopack) + Tailwind v4. Bahasa UI: Indonesia, gaya semi-formal yang ha
   Negeri Padang)**, bukan wisudawan perorangan — `event.graduate` merepresentasikan
   kelas (lihat komentar di `lib/event.ts`), teks pakai sudut pandang "kami".
 - Tema: scrapbook/yearbook hangat (lihat "Sistem visual"). Animasi & fallback aksesibilitas: selesai. Copy: semi-formal.
-- Galeri: 28 foto terpasang (`public/photos/gallery/`, ~8MB total setelah
+- Galeri: 31 foto terpasang (`public/photos/gallery/`, ~8MB total setelah
   dikompres — foto mentah asli ada di `photos-original/`, tidak ikut deploy).
 - Data wisuda, foto cover, foto galeri, dan musik (`/public/music/good-life.mp3`) sudah terisi.
